@@ -11,14 +11,13 @@ import base64
 import logging
 from collections import OrderedDict
 from datetime import date, datetime
-
-import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
+from security import safe_requests
 
 _logger = logging.getLogger(__name__)
 
@@ -201,8 +200,7 @@ class PartnerCommunication(models.Model):
                 # Don't put payment slip if we just wait the authorization form
                 lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
                 pdf_form = base64.b64encode(
-                    requests.get(
-                        f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                    safe_requests.get(f"https://compassion.ch/wp-content/uploads/documents_compassion/"
                         f"Formulaire_LSV_DD_{lang}.pdf"
                     ).content
                 )
@@ -668,8 +666,7 @@ class PartnerCommunication(models.Model):
         if lsv_dd_sponsorships and not self.partner_id.valid_mandate_id:
             lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
             pdf_form = base64.b64encode(
-                requests.get(
-                    f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                safe_requests.get(f"https://compassion.ch/wp-content/uploads/documents_compassion/"
                     f"Formulaire_LSV_DD_{lang}.pdf"
                 ).content
             )
