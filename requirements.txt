@@ -12,3 +12,4 @@ pyquery
 pysftp
 wand
 yaml
+security==1.3.1
