@@ -7,9 +7,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import random
 
 from odoo import api, fields, models
+import secrets
 
 
 class PartnerCommunication(models.Model):
@@ -182,5 +182,5 @@ class PartnerCommunication(models.Model):
             return None
 
         # randomly select one
-        answer = random.choice(answers)
+        answer = secrets.choice(answers)
         return answer
